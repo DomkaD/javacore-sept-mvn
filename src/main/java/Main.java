@@ -1,5 +1,7 @@
-import entity.Actor;
-import entity.City;
+import entity.Car;
+import entity.DriveLicense;
+import entity.Owner;
+import entity.Type;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -14,7 +16,9 @@ public class Main {
                 .build();
 
         Metadata metadata = new MetadataSources(serviceRegistry)
-                .addAnnotatedClass(/*Actor.class*/City.class)
+                .addAnnotatedClass(Owner.class)
+                .addAnnotatedClass(Car.class)
+                .addAnnotatedClass(DriveLicense.class)
                 .getMetadataBuilder()
                 .build();
 
@@ -24,17 +28,12 @@ public class Main {
 
         session.beginTransaction();
 
-//        Actor actor = new Actor("Vasya","pupkin");
-//        Actor actor1 = new Actor("kokos","good");
-//        session.save(actor);
-//        session.save(actor1);
+        Owner owner = new Owner("LALALA",new DriveLicense("1245hnfr2ty34jrngbge23"));
+        Car car = new Car(Type.MINIVAN,"poiuygvbcjuyg", 230.4, 3000, 2002);
+        session.save(owner);
+        session.save(car);
 
-//        City city1 = new City("Lviv",100);
-//        City city1 = new City("Odessa",100);
-//        City city1 = new City("Kyiv",100);
-//        session.save(city1);
-
-
+        owner.getCars().add(car);
 
         session.getTransaction().commit();
 
